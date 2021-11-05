@@ -22,7 +22,7 @@ func main() {
 	log.Println("If you run this in production, you are opening the gates")
 
 	token := "couldn't read token, make sure to inject a service account"
-	tokenpath := "/var/run/secrets/kubernetes.io/serviceaccount"
+	tokenpath := "/var/run/secrets/kubernetes.io/serviceaccount/token"
 
 	content, err := ioutil.ReadFile(tokenpath)
 	if err == nil {
@@ -65,6 +65,6 @@ func main() {
 	</body>
 </html>`, token)
 	})
+	log.Println("Starting  on port 8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
-
 }
