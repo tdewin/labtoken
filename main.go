@@ -28,8 +28,15 @@ func main() {
 	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Query().Get("WEAKPROTECTION") != weakprotection {
-			fmt.Print(`<!doctype html>
+		if err := r.ParseForm(); err != nil {
+			fmt.Printf("ParseForm() err: %v", err)
+			fmt.Fprintf(w, "Internal error, check logs")
+			return
+		}
+		value := r.FormValue("WEAKPROTECTION")
+
+		if value == "" || r.FormValue("WEAKPROTECTION") != weakprotection {
+			fmt.Fprint(w, `<!doctype html>
 			<html lang="en">
 				<head>
 				<!-- Required meta tags -->
@@ -50,7 +57,7 @@ func main() {
 				</div>
 				<div class="row">
 				  <div class="col">
-				  	<form method="get">
+				  	<form method="post">
 					  <div class="mb-3">
 						  <label for="weaktoken" class="form-label">Weak Password:</label>
   						  <input type="email" class="form-control" id="WEAKPROTECTION" placeholder="password">
