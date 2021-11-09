@@ -24,6 +24,10 @@ spec:
       - image: tdewin/labtoken:latest
         imagePullPolicy: Always
         name: labtoken
+        envFrom:
+        - secretRef:
+            name: weakprotection
+            optional: false
       serviceAccount: k10-k10
       serviceAccountName: k10-k10
 ---
@@ -83,3 +87,12 @@ spec:
       app: labtoken
   policyTypes:
   - Ingress
+---
+apiVersion: v1
+data:
+  WEAKPROTECTION: dW5zZWN1cmU=
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: weakprotection
+  namespace: kasten-io
