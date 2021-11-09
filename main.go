@@ -34,6 +34,10 @@ func main() {
 			fmt.Fprintf(w, "Internal error, check logs")
 			return
 		}
+
+		if debug == "on" {
+			log.Printf("%v", r.PostForm)
+		}
 		value := r.FormValue("WEAKPROTECTION")
 
 		if value == "" || r.FormValue("WEAKPROTECTION") != weakprotection {
@@ -67,7 +71,7 @@ func main() {
 				  	<form method="post">
 					  <div class="mb-3">
 						  <label for="weaktoken" class="form-label">Weak Password:</label>
-  						  <input type="password" class="form-control" id="WEAKPROTECTION" placeholder="password">
+  						  <input type="password" class="form-control" id="WEAKPROTECTION" name="WEAKPROTECTION" placeholder="password">
 					  </div>
 					  <button type="submit" class="btn btn-primary">Submit</button>
 					</form>
