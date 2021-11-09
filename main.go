@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 type HTTPHandler struct {
@@ -29,6 +30,10 @@ func main() {
 	debug := os.Getenv("DEBUG")
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if strings.Contains(r.RequestURI, "favicon.ico") {
+			return
+		}
+
 		if err := r.ParseForm(); err != nil {
 			log.Printf("ParseForm() err: %v", err)
 			fmt.Fprintf(w, "Internal error, check logs")
