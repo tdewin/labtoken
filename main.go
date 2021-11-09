@@ -21,18 +21,19 @@ func main() {
 	log.Println("v 1.0")
 	log.Println("If you run this in production, you are opening the gates")
 
-	token := "couldn't read token, make sure to inject a service account"
-	tokenpath := "/var/run/secrets/kubernetes.io/serviceaccount/token"
-
-	content, err := ioutil.ReadFile(tokenpath)
-	if err == nil {
-		token = string(content)
-	} else {
-		log.Printf("Couldnt read token on path %s", tokenpath)
-		log.Println(err)
-	}
-
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		token := "couldn't read token, make sure to inject a service account"
+		tokenpath := "/var/run/secrets/kubernetes.io/serviceaccount/token"
+
+		content, err := ioutil.ReadFile(tokenpath)
+		if err == nil {
+			token = string(content)
+			log.Println("Serving token")
+		} else {
+			log.Printf("Couldn't read token on path %s", tokenpath)
+			log.Println(err)
+		}
+
 		fmt.Fprintf(w, `<!doctype html>
 <html lang="en">
 	<head>
