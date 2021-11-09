@@ -26,16 +26,23 @@ func main() {
 	if weakprotection == "" {
 		weakprotection = "unsecure"
 	}
+	debug := os.Getenv("DEBUG")
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if err := r.ParseForm(); err != nil {
-			fmt.Printf("ParseForm() err: %v", err)
+			log.Printf("ParseForm() err: %v", err)
 			fmt.Fprintf(w, "Internal error, check logs")
 			return
 		}
 		value := r.FormValue("WEAKPROTECTION")
 
 		if value == "" || r.FormValue("WEAKPROTECTION") != weakprotection {
+			log.Println("Got unvalidated request")
+
+			if debug == "on" {
+				log.Printf("%s (<<or empty) != %s", value, weakprotection)
+			}
+
 			fmt.Fprint(w, `<!doctype html>
 			<html lang="en">
 				<head>
