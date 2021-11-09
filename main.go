@@ -60,7 +60,7 @@ func main() {
 				  	<form method="post">
 					  <div class="mb-3">
 						  <label for="weaktoken" class="form-label">Weak Password:</label>
-  						  <input type="email" class="form-control" id="WEAKPROTECTION" placeholder="password">
+  						  <input type="password" class="form-control" id="WEAKPROTECTION" placeholder="password">
 					  </div>
 					  <button type="submit" class="btn btn-primary">Submit</button>
 					</form>
